@@ -16,9 +16,9 @@
 echo "Informe o nome do servidor (Ex.: siteexemplo) :"
 read vhost
  
-echo "Informe o caminho do site (Ex.: /var/www/sitexemplo) :"
+echo "Informe o caminho do site (Ex.: /Users/fhferreira/jobs/projeto-1/public) :"
 read path
- 
+
 echo "Criando configuração de VHost para o servidor"
 
 #aqui é criado o arquivo de virtual host para o domínio e 
@@ -27,18 +27,18 @@ echo "<VirtualHost *:80>
     	ServerAdmin webmaster@localhost
     	ServerName $vhost
     	ServerAlias www.$vhost 
-    	DocumentRoot /var/www/$path
-   	 <Directory /var/www/$path>
+    	DocumentRoot /Users/fhferreira/jobs/$path
+   	 <Directory /Users/fhferreira/jobs/$path>
        		Options Indexes FollowSymLinks MultiViews
         	AllowOverride All
         	Order allow,deny
         	Allow from all
     	 </Directory>
-</VirtualHost>" > /etc/apache2/sites-available/$vhost.conf
+</VirtualHost>" > /usr/local/etc/apache2/2.4/sites/$vhost.conf
 
 #ativa-se o o virtual host para que o serviço possa reconhecê-lo
-echo "Ativando VHOST $vhost"
-a2ensite $vhost.conf
+#echo "Ativando VHOST $vhost"
+#a2ensite $vhost.conf
 
 #escreve no arquivo de hosts do linux
 echo "Atualizando arquivo hosts"
@@ -46,6 +46,6 @@ echo "127.0.1.1     $vhost www.$vhost" >> /etc/hosts
 
 #renicia-se o servidor apache para aplicar as configurações
 echo "Reiniciando apache";
-service apache2 restart
+sudo apachectl -k restart
  
 echo "VHOST criado";
